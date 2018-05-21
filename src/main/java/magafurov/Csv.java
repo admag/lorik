@@ -56,7 +56,7 @@ public class Csv {
         sb.append(url);
         sb.append('\n');
         pw.write(sb.toString());
-        System.out.println(url);
+        System.out.println(count + " " + url);
     }
     public void closePw() {
         pw.close();

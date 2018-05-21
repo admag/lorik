@@ -10,28 +10,33 @@ import java.util.concurrent.TimeUnit;
 
 public class Review {
 
-    int current;
-    int last;
+    int pagerCurrent;
+    int pagerLast;
     WebPage reviewPage;
 
-    {
-        try {
-            reviewPage = new WebPage();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+
+    public Review(int pagerCurrent, int pagerLast) {
+        {
+            try {
+                reviewPage = new WebPage();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
+        this.pagerCurrent = pagerCurrent;
+        this.pagerLast = pagerLast;
     }
 
     public void checkPage(String urlToCheck) throws Throwable{
-        Thread.sleep(1000);
         this.reviewPage.seleniumDriver.get(urlToCheck);
+        Thread.sleep(10000);
         List<WebElement> list = getReviewsList();
         String category = "";
         String title = "";
         try {
-            WebElement temp  = reviewPage.seleniumDriver.findElement(By.xpath("//div[contains(@class,'voc-group vid-1')]"));
+            WebElement temp  = this.reviewPage.seleniumDriver.findElement(By.xpath("//div[contains(@class,'voc-group vid-1')]"));
             category = temp.findElement(By.xpath("./a")).getText();
-            title = reviewPage.seleniumDriver.findElement(By.xpath("//h1/span")).getText();
+            title = this.reviewPage.seleniumDriver.findElement(By.xpath("//h1/span")).getText();
         } catch (Exception e) {
             System.out.println(reviewPage.seleniumDriver.getPageSource());
         }
@@ -41,24 +46,15 @@ public class Review {
             Csv.writeToFile(info.authorName, info.stars, info.date, info.commentCount, category, title, info.authorURL, urlToCheck);
             //System.out.println(info.toString());
         }
-        try {
-            current = Integer.parseInt(reviewPage.seleniumDriver.findElement(By.xpath("//li[contains(@class,'pager-current')]")).getText());
-            try {
-                last = Integer.parseInt(reviewPage.seleniumDriver.findElement(By.xpath("//li[@class='pager-current last']")).getText());
-            } catch (Exception ex) {
-                last = Integer.parseInt(reviewPage.seleniumDriver.findElement(By.xpath("//li[@class='pager-last last']/a")).getText());
-            }
-        } catch (Exception exc) {
-            current = 0;
-            last = 0;
-        }
         String newUrl;
-        if (!(current == 0 || current == last)) {
-            if (current > 1) {
-                newUrl = urlToCheck.substring(0,urlToCheck.lastIndexOf("=")) + "=" + current;
+        if (!(pagerCurrent == pagerLast)) {
+            if (pagerCurrent > 1) {
+                newUrl = urlToCheck.substring(0,urlToCheck.lastIndexOf("=")) + "=" + pagerCurrent;
+                pagerCurrent++;
                 checkPage(newUrl);
             } else {
-                newUrl = urlToCheck + "?page=" + current;
+                newUrl = urlToCheck + "?page=" + pagerCurrent;
+                pagerCurrent++;
                 checkPage(newUrl);
             }
         }
@@ -72,7 +68,7 @@ public class Review {
             try {
                 allRows.add(row.findElement(By.className("authorSpace")));
             } catch (Exception e) {
-                System.out.println("Test4");
+                System.out.println("No author space has been found");
             }
         }
         return allRows;
