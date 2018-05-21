@@ -42,6 +42,7 @@ public class Product {
             }
         } catch (Exception ex) {
             this.productPage.seleniumDriver.getPageSource();
+            last = 1;
         }
         String newUrl;
         if (!(current == last)) {

@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.Date;
+import java.util.List;
 
 public class ReviewInfo {
     String authorName;
@@ -19,9 +20,14 @@ public class ReviewInfo {
         authorName = reviewInfo.findElement(By.xpath(path1)).getText();
         authorURL = reviewInfo.findElement(By.xpath(path1)).getAttribute("href");
         date = reviewInfo.findElement(By.xpath(path2 + "/div")).getText();
-        try {
-            commentCount = reviewInfo.findElement(By.xpath(path2 + "/div[contains(@class,'comments')]")).getText();
-        } catch (Exception ex) {
+        List<WebElement> commentBlock = reviewInfo.findElements(By.xpath(path2 + "/div"));
+        if (commentBlock.size() > 1) {
+            try {
+                commentCount = reviewInfo.findElement(By.xpath(path2 + "/div[contains(@class,'comments')]")).getText();
+            } catch (Exception ex) {
+                commentCount = "0";
+            }
+        } else {
             commentCount = "0";
         }
         stars = reviewInfo.findElement(By.xpath(path3)).getAttribute("content");
