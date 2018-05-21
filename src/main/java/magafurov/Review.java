@@ -29,7 +29,8 @@ public class Review {
 
     public void checkPage(String urlToCheck) throws Throwable{
         this.reviewPage.seleniumDriver.get(urlToCheck);
-        Thread.sleep(10000);
+        System.out.println(urlToCheck);
+        Thread.sleep(15000);
         List<WebElement> list = getReviewsList();
         String category = "";
         String title = "";

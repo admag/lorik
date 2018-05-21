@@ -26,7 +26,7 @@ public class Product {
     public void checkPageProduct(String urlToCheck) throws Throwable{
         this.productPage.seleniumDriver.get(urlToCheck);
         System.out.println(urlToCheck);
-        Thread.sleep(10000);
+        Thread.sleep(15000);
         Map<String, String> map = getProductList();
         List<String> urls = new ArrayList(map.keySet());
         List<String> pagers = new ArrayList(map.values());
@@ -41,7 +41,7 @@ public class Product {
                 last = Integer.parseInt(productPage.seleniumDriver.findElement(By.xpath("//li[contains(@class,'pager-last')]")).getText());
             }
         } catch (Exception ex) {
-            this.productPage.seleniumDriver.getPageSource();
+            System.out.println(this.productPage.seleniumDriver.getPageSource());
             last = 1;
         }
         String newUrl;
