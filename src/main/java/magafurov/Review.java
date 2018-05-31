@@ -38,31 +38,38 @@ public class Review {
             WebElement temp  = this.reviewPage.seleniumDriver.findElement(By.xpath("//div[contains(@class,'voc-group vid-1')]"));
             category = temp.findElement(By.xpath("./a")).getText();
             title = this.reviewPage.seleniumDriver.findElement(By.xpath("//h1/span")).getText();
+
         } catch (Exception e) {
             System.out.println(reviewPage.seleniumDriver.getPageSource());
         }
+        System.out.println("category= " + category);
+        System.out.println("title= " + title);
         for (int i = 0; i < list.size(); i++) {
             WebElement row = list.get(i);
+            System.out.println("Parsing review");
             ReviewInfo info = new ReviewInfo(row);
+            System.out.println("Review parsed");
             Csv.writeToFile(info.authorName, info.stars, info.date, info.commentCount, category, title, info.authorURL, urlToCheck);
-            //System.out.println(info.toString());
         }
         String newUrl;
         if (!(pagerCurrent == pagerLast)) {
             if (pagerCurrent > 1) {
                 newUrl = urlToCheck.substring(0,urlToCheck.lastIndexOf("=")) + "=" + pagerCurrent;
                 pagerCurrent++;
+                System.out.println("Pager current= " + pagerCurrent + " pager last= " + pagerLast);
                 checkPage(newUrl);
             } else {
                 newUrl = urlToCheck + "?page=" + pagerCurrent;
                 pagerCurrent++;
+                System.out.println("Pager current= " + pagerCurrent + " pager last= " + pagerLast);
                 checkPage(newUrl);
             }
         }
+        System.out.println("Pager current= " + pagerCurrent + " pager last= " + pagerLast);
     }
 
     private List<WebElement> getReviewsList() {
-        //By xpath = By.xpath(("//ul[@class='list-comments']"));
+        System.out.println("Getting comments info");
         WebElement table = reviewPage.seleniumDriver.findElement(By.className("list-comments"));
         List<WebElement> allRows = new ArrayList<>();
         for (WebElement row : table.findElements(By.tagName("li"))) {
@@ -72,6 +79,7 @@ public class Review {
                 System.out.println("No author space has been found");
             }
         }
+        System.out.println("Comments on page= " + allRows.size());
         return allRows;
     }
 }

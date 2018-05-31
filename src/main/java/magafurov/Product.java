@@ -34,6 +34,7 @@ public class Product {
             String url = urls.get(i);
             int pagerCounter = Integer.parseInt(pagers.get(i));
             Review review = new Review(1,pagerCounter/50 + 1);
+            System.out.println("Starting page= " + url + " with comments= " + pagerCounter);
             review.checkPage(url);
         }
         try {
@@ -41,7 +42,8 @@ public class Product {
                 last = Integer.parseInt(productPage.seleniumDriver.findElement(By.xpath("//li[contains(@class,'pager-last')]")).getText());
             }
         } catch (Exception ex) {
-            System.out.println(this.productPage.seleniumDriver.getPageSource());
+            //System.out.println(this.productPage.seleniumDriver.getPageSource());
+            System.out.println("Pager on product not found = only one page");
             last = 1;
         }
         String newUrl;
@@ -63,6 +65,7 @@ public class Product {
     private Map<String, String> getProductList() {
         WebElement table = productPage.seleniumDriver.findElementByClassName("srch-result-nodes");
         Map<String, String> allRows = new HashMap();
+        System.out.println("Getting product list");
         for (WebElement row : table.findElements(By.tagName("li"))) {
             try {
                 WebElement rat =  row.findElement(By.className("rating"));
@@ -72,6 +75,7 @@ public class Product {
                 System.out.println("Number of reviews has not been found");
             }
         }
+        System.out.println("Products on page= " + allRows.size());
         return allRows;
     }
 }

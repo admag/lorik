@@ -16,6 +16,8 @@ public class App
     public static void main( String[] args ) throws Throwable
     {
         java.util.logging.Logger.getLogger("com.gargoylesoftware.htmlunit").setLevel(Level.OFF);
+        java.util.logging.Logger.getLogger("org.apache.commons.httpclient").setLevel(Level.OFF);
+
         String[] brandUrls = new String[100];
         String csvFile = System.getProperty("user.dir") + "/input.csv";
         BufferedReader br = null;
@@ -49,9 +51,8 @@ public class App
                 Product product = new Product();
                 product.checkPageProduct(url);
             } catch (Exception exc) {
-                System.out.println("Could not get product page");
+                System.out.println("Could not get product page, failed on= " + url);
                 exc.printStackTrace();
-                System.out.println(exc.getLocalizedMessage() + " " + exc.getMessage());
             }
         }
         csv.closePw();

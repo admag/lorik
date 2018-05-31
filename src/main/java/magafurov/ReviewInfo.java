@@ -18,9 +18,13 @@ public class ReviewInfo {
         String path2 = "./div[@class='half2']";
         String path3 = "./div[@class='half1']/div[2]/div/div/meta";
         authorName = reviewInfo.findElement(By.xpath(path1)).getText();
+        System.out.println("Author= " + authorName);
         authorURL = reviewInfo.findElement(By.xpath(path1)).getAttribute("href");
+        System.out.println("authorURL= " + authorURL);
         date = reviewInfo.findElement(By.xpath(path2 + "/div")).getText();
+        System.out.println("date= " + date);
         List<WebElement> commentBlock = reviewInfo.findElements(By.xpath(path2 + "/div"));
+        System.out.println("commentBlock.size()= " + commentBlock.size());
         if (commentBlock.size() > 1) {
             try {
                 commentCount = reviewInfo.findElement(By.xpath(path2 + "/div[contains(@class,'comments')]")).getText();
@@ -30,7 +34,9 @@ public class ReviewInfo {
         } else {
             commentCount = "0";
         }
+        System.out.println("commentCount= " + commentCount);
         stars = reviewInfo.findElement(By.xpath(path3)).getAttribute("content");
+        System.out.println("stars= " + stars);
     }
 
     @Override
