@@ -39,7 +39,11 @@ public class ReviewInfo {
         System.out.println("commentCount= " + commentCount);
         stars = reviewInfo.findElement(By.xpath(path3)).getAttribute("content");
         System.out.println("stars= " + stars);
-        comment = reviewInfoUntouched.findElement(By.className("reviewTextSnippet")).findElement(By.xpath("./div[1]/a")).getText();
+        try {
+            comment = reviewInfoUntouched.findElement(By.className("reviewTextSnippet")).findElement(By.xpath("./div[1]/a")).getText();
+        } catch (Exception e) {
+            comment = "";
+        }
         System.out.println("comment= " + comment);
     }
 
