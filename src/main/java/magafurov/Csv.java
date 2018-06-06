@@ -22,6 +22,8 @@ public class Csv {
             sb.append(',');
             sb.append("# of comments");
             sb.append(',');
+            sb.append("comment text");
+            sb.append(',');
             sb.append("category");
             sb.append(',');
             sb.append("brand");
@@ -37,7 +39,7 @@ public class Csv {
             System.out.println(e.getLocalizedMessage());
         }
     }
-    public static void writeToFile(String author, String rating, String date, String commentCount,String category, String brand, String title, String profile, String url) {
+    public static void writeToFile(String author, String rating, String date, String commentCount, String comment, String category, String brand, String title, String profile, String url) {
         sb = new StringBuilder();
         sb.append(++count + "");
         sb.append(',');
@@ -48,6 +50,8 @@ public class Csv {
         sb.append(date);
         sb.append(',');
         sb.append(commentCount);
+        sb.append(',');
+        sb.append(comment);
         sb.append(',');
         sb.append(category);
         sb.append(',');

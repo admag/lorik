@@ -53,7 +53,7 @@ public class Review {
             System.out.println("Parsing review");
             ReviewInfo info = new ReviewInfo(row);
             System.out.println("Review parsed");
-            Csv.writeToFile(info.authorName, info.stars, info.date, info.commentCount, category, brand, title, info.authorURL, urlToCheck);
+            Csv.writeToFile(info.authorName, info.stars, info.date, info.commentCount, info.comment, category, brand, title, info.authorURL, urlToCheck);
         }
         String newUrl;
         if (!(pagerCurrent == pagerLast)) {
@@ -78,7 +78,7 @@ public class Review {
         List<WebElement> allRows = new ArrayList<>();
         for (WebElement row : table.findElements(By.tagName("li"))) {
             try {
-                allRows.add(row.findElement(By.className("authorSpace")));
+                allRows.add(row.findElement(By.className("reviews-list-item")));
             } catch (Exception e) {
                 System.out.println("No author space has been found");
             }

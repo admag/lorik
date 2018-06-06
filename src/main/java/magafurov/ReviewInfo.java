@@ -12,8 +12,10 @@ public class ReviewInfo {
     String commentCount;
     String stars;
     String date;
+    String comment;
 
-    ReviewInfo(WebElement reviewInfo) {
+    ReviewInfo(WebElement reviewInfoUntouched) {
+        WebElement reviewInfo = reviewInfoUntouched.findElement(By.className("authorSpace"));
         String path1 = "./div[@class='half1']/div[2]/div[@class='authorName']/a";
         String path2 = "./div[@class='half2']";
         String path3 = "./div[@class='half1']/div[2]/div/div/meta";
@@ -37,6 +39,8 @@ public class ReviewInfo {
         System.out.println("commentCount= " + commentCount);
         stars = reviewInfo.findElement(By.xpath(path3)).getAttribute("content");
         System.out.println("stars= " + stars);
+        comment = reviewInfoUntouched.findElement(By.className("reviewTextSnippet")).findElement(By.xpath("./div[1]/a")).getText();
+        System.out.println("comment= " + comment);
     }
 
     @Override
