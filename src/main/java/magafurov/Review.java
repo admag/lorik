@@ -39,7 +39,7 @@ public class Review {
             WebElement temp  = this.reviewPage.seleniumDriver.findElement(By.xpath("//div[contains(@class,'voc-group vid-1')]"));
             category = temp.findElement(By.xpath("./a")).getText();
             title = this.reviewPage.seleniumDriver.findElement(By.xpath("//h1/span")).getText();
-            WebElement temp1  = this.reviewPage.seleniumDriver.findElement(By.xpath("//div[contains(@class,'voc-group vid-17')]"));
+            WebElement temp1  = this.reviewPage.seleniumDriver.findElement(By.xpath("//div[@itemprop='brand']"));
             brand = temp1.findElement(By.xpath("./span[2]/a")).getText();
         } catch (Exception e) {
             System.out.println("First parse failed");

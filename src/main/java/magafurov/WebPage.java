@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class WebPage {
 
@@ -39,6 +41,8 @@ public class WebPage {
 //        );
         this.seleniumDriver = new HtmlUnitDriver();
         this.seleniumDriver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS );
+        Logger logger = Logger.getLogger("");
+        logger.setLevel(Level.OFF);
         //seleniumDriver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 
         //seleniumDriver = new ChromeDriver(options);
