@@ -34,22 +34,26 @@ public class Review {
         List<WebElement> list = getReviewsList();
         String category = "";
         String title = "";
+        String brand = "";
         try {
             WebElement temp  = this.reviewPage.seleniumDriver.findElement(By.xpath("//div[contains(@class,'voc-group vid-1')]"));
             category = temp.findElement(By.xpath("./a")).getText();
             title = this.reviewPage.seleniumDriver.findElement(By.xpath("//h1/span")).getText();
-
+            WebElement temp1  = this.reviewPage.seleniumDriver.findElement(By.xpath("//div[contains(@class,'voc-group vid-17')]"));
+            brand = temp1.findElement(By.xpath("./span[2]/a")).getText();
         } catch (Exception e) {
+            System.out.println("First parse failed");
             System.out.println(reviewPage.seleniumDriver.getPageSource());
         }
         System.out.println("category= " + category);
         System.out.println("title= " + title);
+        System.out.println("brand= " + brand);
         for (int i = 0; i < list.size(); i++) {
             WebElement row = list.get(i);
             System.out.println("Parsing review");
             ReviewInfo info = new ReviewInfo(row);
             System.out.println("Review parsed");
-            Csv.writeToFile(info.authorName, info.stars, info.date, info.commentCount, category, title, info.authorURL, urlToCheck);
+            Csv.writeToFile(info.authorName, info.stars, info.date, info.commentCount, category, brand, title, info.authorURL, urlToCheck);
         }
         String newUrl;
         if (!(pagerCurrent == pagerLast)) {
