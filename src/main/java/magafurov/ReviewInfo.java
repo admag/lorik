@@ -47,7 +47,7 @@ public class ReviewInfo {
         }
         System.out.println("comment= " + comment);
         try {
-            comment = reviewInfoUntouched.findElement(By.className("reviewTextSnippet")).findElement(By.xpath("./div[1]/a")).getAttribute("href");
+            commentUrl = reviewInfoUntouched.findElement(By.className("reviewTextSnippet")).findElement(By.xpath("./div[1]/a")).getAttribute("href");
         } catch (Exception e) {
             commentUrl = "";
         }
