@@ -13,6 +13,7 @@ public class ReviewInfo {
     String stars;
     String date;
     String comment;
+    String commentUrl;
 
     ReviewInfo(WebElement reviewInfoUntouched) {
         WebElement reviewInfo = reviewInfoUntouched.findElement(By.className("authorSpace"));
@@ -45,6 +46,12 @@ public class ReviewInfo {
             comment = "";
         }
         System.out.println("comment= " + comment);
+        try {
+            comment = reviewInfoUntouched.findElement(By.className("reviewTextSnippet")).findElement(By.xpath("./div[1]/a")).getAttribute("href");
+        } catch (Exception e) {
+            commentUrl = "";
+        }
+        System.out.println("commentUrl= " + commentUrl);
     }
 
     @Override
