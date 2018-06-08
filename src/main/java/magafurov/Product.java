@@ -71,10 +71,10 @@ public class Product {
         }
         Map<String, String> allRows = new HashMap();
         System.out.println("Getting product list");
-        for (WebElement row : table.findElements(By.tagName("div"))) {
+        for (WebElement row : table.findElements(By.xpath("./div[@class='ProductTizer plate teaser-item']"))) {
             try {
                 WebElement rat =  row.findElement(By.className("rating"));
-                allRows.put(rat.findElement(By.xpath("./a")).getAttribute("href")
+                allRows.put(rat.findElement(By.xpath("./a[1]")).getAttribute("href")
                         ,rat.findElement(By.xpath("./a/span[2]")).getText());
             } catch (Exception e) {
                 System.out.println("Number of reviews has not been found");
