@@ -62,7 +62,13 @@ public class Product {
     }
 
     private Map<String, String> getProductList() {
-        WebElement table = productPage.seleniumDriver.findElementByClassName("srch-result-nodes");
+        WebElement table = null;
+        try {
+            table = productPage.seleniumDriver.findElementByClassName("srch-result-nodes");
+        } catch (Exception ex) {
+            System.out.println("Failed on start of brand");
+            System.out.println(productPage.seleniumDriver.getPageSource());
+        }
         Map<String, String> allRows = new HashMap();
         System.out.println("Getting product list");
         for (WebElement row : table.findElements(By.tagName("li"))) {
