@@ -64,14 +64,14 @@ public class Product {
     private Map<String, String> getProductList() {
         WebElement table = null;
         try {
-            table = productPage.seleniumDriver.findElementByClassName("srch-result-nodes");
+            table = productPage.seleniumDriver.findElementByClassName("view-content");
         } catch (Exception ex) {
             System.out.println("Failed on start of brand");
             System.out.println(productPage.seleniumDriver.getPageSource());
         }
         Map<String, String> allRows = new HashMap();
         System.out.println("Getting product list");
-        for (WebElement row : table.findElements(By.tagName("li"))) {
+        for (WebElement row : table.findElements(By.tagName("div"))) {
             try {
                 WebElement rat =  row.findElement(By.className("rating"));
                 allRows.put(rat.findElement(By.xpath("./a")).getAttribute("href")

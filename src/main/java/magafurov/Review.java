@@ -43,7 +43,6 @@ public class Review {
             brand = temp1.findElement(By.xpath("./span[2]/a")).getText();
         } catch (Exception e) {
             System.out.println("First parse failed");
-            System.out.println(reviewPage.seleniumDriver.getPageSource());
         }
         System.out.println("category= " + category);
         System.out.println("title= " + title);
