@@ -50,11 +50,12 @@ public class Product {
         if (!(current == last)) {
             if (current > 1) {
                 newUrl = urlToCheck.substring(0,urlToCheck.indexOf("="))
-                        + "=" + current;
+                        + "=" + current + "&" + urlToCheck.substring(urlToCheck.lastIndexOf("&") +1);;
                 ++current;
                 checkPageProduct(newUrl);
             } else {
-                newUrl = urlToCheck + "?page=" + current;
+                newUrl = urlToCheck.substring(0,urlToCheck.lastIndexOf("?"))
+                        + "?page=" + current + "&" + urlToCheck.substring(urlToCheck.lastIndexOf("?") +1);
                 ++current;
                 checkPageProduct(newUrl);
             }
