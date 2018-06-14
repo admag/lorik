@@ -50,11 +50,12 @@ public class Product {
         if (!(current == last)) {
             if (current > 1) {
                 newUrl = urlToCheck.substring(0,urlToCheck.indexOf("="))
-                        + "=" + current;
+                        + "=" + current + "&" + urlToCheck.substring(urlToCheck.lastIndexOf("&") +1);
                 ++current;
                 checkPageProduct(newUrl);
             } else {
-                newUrl = urlToCheck + "?page=" + current;
+                newUrl = urlToCheck.substring(0,urlToCheck.lastIndexOf("?"))
+                        + "?page=" + current + "&" + urlToCheck.substring(urlToCheck.lastIndexOf("?") +1);
                 ++current;
                 checkPageProduct(newUrl);
             }
@@ -67,7 +68,7 @@ public class Product {
             table = productPage.seleniumDriver.findElementByClassName("srch-result-nodes");
         } catch (Exception ex) {
             System.out.println("Failed on start of brand");
-            System.out.println(productPage.seleniumDriver.getPageSource());
+            //System.out.println(productPage.seleniumDriver.getPageSource());
         }
         Map<String, String> allRows = new HashMap();
         System.out.println("Getting product list");

@@ -52,7 +52,7 @@ public class App
                 product.checkPageProduct(url);
             } catch (Exception exc) {
                 System.out.println("Could not get product page, failed on= " + url);
-                exc.printStackTrace();
+                //exc.printStackTrace();
             }
         }
         csv.closePw();
