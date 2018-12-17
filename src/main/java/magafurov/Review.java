@@ -52,7 +52,7 @@ public class Review {
             System.out.println("Parsing review");
             ReviewInfo info = new ReviewInfo(row);
             System.out.println("Review parsed");
-            Csv.writeToFile(info.authorName, info.stars, info.date, info.commentCount, info.comment,info.commentUrl, category, brand, title, info.authorURL, urlToCheck);
+            //Csv.writeToFile(info.authorName, info.stars, info.date, info.commentCount, info.comment,info.commentUrl, category, brand, title, info.authorURL, urlToCheck);
         }
         String newUrl;
         if (!(pagerCurrent == pagerLast)) {

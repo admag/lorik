@@ -14,56 +14,45 @@ public class Csv {
             sb = new StringBuilder();
             sb.append("#");
             sb.append('}');
-            sb.append("Author");
+            sb.append("date");
             sb.append('}');
-            sb.append("Rating");
+            sb.append("description");
             sb.append('}');
-            sb.append("Post date");
+            sb.append("percentage");
             sb.append('}');
-            sb.append("# of comments");
+            sb.append("priceNew");
             sb.append('}');
-            sb.append("comment text");
+            sb.append("priceOld");
             sb.append('}');
-            sb.append("comment url");
+            sb.append("quantity");
             sb.append('}');
-            sb.append("category");
+            sb.append("shop");
             sb.append('}');
-            sb.append("brand");
-            sb.append('}');
-            sb.append("title");
-            sb.append('}');
-            sb.append("Profile");
-            sb.append('}');
-            sb.append("Url");
+            sb.append("url");
             sb.append('\n');
             pw.write(sb.toString());
         } catch (Exception e) {
             System.out.println(e.getLocalizedMessage());
         }
     }
-    public static void writeToFile(String author, String rating, String date, String commentCount, String comment, String commentUrl, String category, String brand, String title, String profile, String url) {
+    public static void writeToFile(String date, String description, String percentage, String priceNew,
+                                   String priceOld, String quantity, String shop, String url) {
         sb = new StringBuilder();
         sb.append(++count + "");
         sb.append('}');
-        sb.append(author);
-        sb.append('}');
-        sb.append(rating);
-        sb.append('}');
         sb.append(date);
         sb.append('}');
-        sb.append(commentCount);
+        sb.append(description);
         sb.append('}');
-        sb.append(comment);
+        sb.append(percentage);
         sb.append('}');
-        sb.append(commentUrl);
+        sb.append(priceNew);
         sb.append('}');
-        sb.append(category);
+        sb.append(priceOld);
         sb.append('}');
-        sb.append(brand);
+        sb.append(quantity);
         sb.append('}');
-        sb.append(title);
-        sb.append('}');
-        sb.append(profile);
+        sb.append(shop);
         sb.append('}');
         sb.append(url);
         sb.append('\n');

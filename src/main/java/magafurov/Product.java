@@ -4,15 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class Product {
-    int current = 1;
-    int last = 0;
     WebPage productPage;
 
     {
@@ -27,61 +21,46 @@ public class Product {
         this.productPage.seleniumDriver.get(urlToCheck);
         System.out.println(urlToCheck);
         Thread.sleep(15000);
-        Map<String, String> map = getProductList();
-        List<String> urls = new ArrayList(map.keySet());
-        List<String> pagers = new ArrayList(map.values());
-        for (int i = 0; i < urls.size(); i++) {
-            String url = urls.get(i);
-            int pagerCounter = Integer.parseInt(pagers.get(i));
-            Review review = new Review(1,pagerCounter/50 + 1);
-            System.out.println("Starting page= " + url + " with comments= " + pagerCounter);
-            review.checkPage(url);
-        }
-        try {
-            if (!(current==last)) {
-                last = Integer.parseInt(productPage.seleniumDriver.findElement(By.xpath("//li[contains(@class,'pager-last')]")).getText());
+        int lastPageIndex = getNumberOfPages();
+        for (int i = 1; i < lastPageIndex; i++) {
+            List<WebElement> offers = getOffers().findElements(By.xpath("//a"));
+            int offerCounter = offers.size();
+            for (int j = 0; j < offerCounter; j++) {
+                ReviewInfo offer = new ReviewInfo(offers.get(j));
+                Csv.writeToFile(offer.date, offer.description, offer.percentage, offer.priceNew,
+                        offer.priceOld, offer.quantity, offer.shop, offer.url);
             }
-        } catch (Exception ex) {
-            //System.out.println(this.productPage.seleniumDriver.getPageSource());
-            System.out.println("Pager on product not found = only one page");
-            last = 1;
-        }
-        String newUrl;
-        if (!(current == last)) {
-            if (current > 1) {
-                newUrl = urlToCheck.substring(0,urlToCheck.indexOf("="))
-                        + "=" + current + "&" + urlToCheck.substring(urlToCheck.lastIndexOf("&") +1);
-                ++current;
-                checkPageProduct(newUrl);
+            if (i == 1) {
+                String newUrl = urlToCheck + "?page=" + i;
+                urlToCheck = newUrl;
             } else {
-                newUrl = urlToCheck.substring(0,urlToCheck.lastIndexOf("?"))
-                        + "?page=" + current + "&" + urlToCheck.substring(urlToCheck.lastIndexOf("?") +1);
-                ++current;
-                checkPageProduct(newUrl);
+                String newUrl = urlToCheck.substring(0,urlToCheck.indexOf("?")) + "?page=" + i;
+                urlToCheck = newUrl;
             }
         }
     }
 
-    private Map<String, String> getProductList() {
-        WebElement table = null;
+    private int getNumberOfPages() {
+        WebElement lastPager = null;
         try {
-            table = productPage.seleniumDriver.findElementByClassName("srch-result-nodes");
+            lastPager = productPage.seleniumDriver.findElement(By.xpath(
+                    "//*[@id=\"view\"]/div[1]/div/div[1]/div[3]/div/div[1]/div[9]/a/div"
+            ));
         } catch (Exception ex) {
-            System.out.println("Failed on start of brand");
-            //System.out.println(productPage.seleniumDriver.getPageSource());
+            System.out.println("Failed to find last pager");
         }
-        Map<String, String> allRows = new HashMap();
-        System.out.println("Getting product list");
-        for (WebElement row : table.findElements(By.tagName("li"))) {
-            try {
-                WebElement rat =  row.findElement(By.className("rating"));
-                allRows.put(rat.findElement(By.xpath("./a")).getAttribute("href")
-                        ,rat.findElement(By.xpath("./a/span[2]")).getText());
-            } catch (Exception e) {
-                System.out.println("Number of reviews has not been found");
-            }
+        return Integer.parseInt(lastPager.getText());
+    }
+
+    private WebElement getOffers() {
+        WebElement offers = null;
+        try {
+            offers = productPage.seleniumDriver.findElement(By.xpath(
+                    "//*[@id=\"view\"]/div[1]/div/div[1]/div[2]/div[2]"
+            ));
+        } catch (Exception ex) {
+            System.out.println("Failed to find offers");
         }
-        System.out.println("Products on page= " + allRows.size());
-        return allRows;
+        return offers;
     }
 }

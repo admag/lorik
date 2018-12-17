@@ -3,59 +3,73 @@ package magafurov;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.Date;
 import java.util.List;
 
 public class ReviewInfo {
-    String authorName;
-    String authorURL;
-    String commentCount;
-    String stars;
+    String percentage;
     String date;
-    String comment;
-    String commentUrl;
+    String description;
+    String quantity;
+    String priceOld;
+    String priceNew;
+    String shop;
+    String url;
 
-    ReviewInfo(WebElement reviewInfoUntouched) {
-        WebElement reviewInfo = reviewInfoUntouched.findElement(By.className("authorSpace"));
-        String path1 = "./div[@class='half1']/div[2]/div[@class='authorName']/a";
-        String path2 = "./div[@class='half2']";
-        String path3 = "./div[@class='half1']/div[2]/div/div/meta";
-        authorName = reviewInfo.findElement(By.xpath(path1)).getText();
-        System.out.println("Author= " + authorName);
-        authorURL = reviewInfo.findElement(By.xpath(path1)).getAttribute("href");
-        System.out.println("authorURL= " + authorURL);
-        date = reviewInfo.findElement(By.xpath(path2 + "/div")).getText();
-        System.out.println("date= " + date);
-        List<WebElement> commentBlock = reviewInfo.findElements(By.xpath(path2 + "/div"));
-        System.out.println("commentBlock.size()= " + commentBlock.size());
-        if (commentBlock.size() > 1) {
+    ReviewInfo(WebElement offerInfoUntouched) {
+        String path1 = "./div/div/div[1]";
+        String path2 = "./div/div/div[2]";
+        String path3 = "./div/div/div[3]";
+
+        url = offerInfoUntouched.getAttribute("href");
+
+        List<WebElement> headerBlock = offerInfoUntouched.findElements(By.xpath(path1 + "/div[2]"));
+        System.out.println("headerBlock.size()= " + headerBlock.size());
+        if (headerBlock.size() > 1) {
             try {
-                commentCount = reviewInfo.findElement(By.xpath(path2 + "/div[contains(@class,'comments')]")).getText();
+                percentage = headerBlock.get(0).getText();
+                date = headerBlock.get(1).findElement(By.xpath("/div")).getText();
             } catch (Exception ex) {
-                commentCount = "0";
+                percentage = "0";
             }
         } else {
-            commentCount = "0";
+            percentage = "undefined";
+            date = headerBlock.get(0).findElement(By.xpath("/div")).getText();
         }
-        System.out.println("commentCount= " + commentCount);
-        stars = reviewInfo.findElement(By.xpath(path3)).getAttribute("content");
-        System.out.println("stars= " + stars);
-        try {
-            comment = reviewInfoUntouched.findElement(By.className("reviewTextSnippet")).findElement(By.xpath("./div[1]/a")).getText();
-        } catch (Exception e) {
-            comment = "";
+
+        List<WebElement> bodyBlock = offerInfoUntouched.findElements(By.xpath(path2));
+        System.out.println("bodyBlock.size()= " + bodyBlock.size());
+        if (headerBlock.size() > 1) {
+            try {
+                description = bodyBlock.get(0).getText();
+                quantity = bodyBlock.get(1).getText();
+            } catch (Exception ex) {
+                quantity = "undefined";
+            }
+        } else {
+            percentage = "undefined";
+            quantity = headerBlock.get(0).getText();
         }
-        System.out.println("comment= " + comment);
-        try {
-            commentUrl = reviewInfoUntouched.findElement(By.className("reviewTextSnippet")).findElement(By.xpath("./div[1]/a")).getAttribute("href");
-        } catch (Exception e) {
-            commentUrl = "";
+
+        List<WebElement> footerBlock = offerInfoUntouched.findElements(By.xpath(path3+ "/div"));
+        System.out.println("footerBlock.size()= " + footerBlock.size());
+        if (footerBlock.size() > 2) {
+            try {
+                priceNew = bodyBlock.get(0).getText();
+                priceOld = bodyBlock.get(1).getText();
+                shop = bodyBlock.get(2).getAttribute("title");
+            } catch (Exception ex) {
+                priceOld = "undefined";
+            }
+        } else {
+            priceOld = "undefined";
+            priceNew = bodyBlock.get(0).getText();
+            shop = bodyBlock.get(1).getAttribute("title");
         }
-        System.out.println("commentUrl= " + commentUrl);
     }
 
     @Override
     public String toString() {
-        return (authorName + ',' + stars + ',' + date + ',' + commentCount + ',' + authorURL);
+        return (percentage + ',' + date + ',' + description + ',' + quantity + ','
+                + priceOld + ',' + priceNew + ',' + shop + ',' + url);
     }
 }
